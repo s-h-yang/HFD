@@ -1,6 +1,6 @@
 # Quick tests
 
-Three quick tests that require minimal dependency and reproduce part of results in the paper.
+Three quick tests that require minimal dependency and reproduce part of results in the paper:
 
 In your terminal
 
