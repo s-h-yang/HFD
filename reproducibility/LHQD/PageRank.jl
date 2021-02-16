@@ -1,3 +1,5 @@
+# This script obtained from https://github.com/MengLiuPurdue/LHQD
+
 ##
 module PageRank
 
