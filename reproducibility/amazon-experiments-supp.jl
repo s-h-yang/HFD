@@ -66,8 +66,9 @@ for (c,label) in enumerate(target_labels)
         @printf("Cluster %d, trial %d, method HFD2.0, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
     open("amazon_c"*string(label)*"_multiseed_HFD2.0.txt", "w") do f
-    for i in 1:num_trials
-        @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        for i in 1:num_trials
+            @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        end
     end
 
     # HFD-4.0
@@ -86,8 +87,9 @@ for (c,label) in enumerate(target_labels)
         @printf("Cluster %d, trial %d, method HFD4.0, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
     open("amazon_c"*string(label)*"_multiseed_HFD4.0.txt", "w") do f
-    for i in 1:num_trials
-        @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        for i in 1:num_trials
+            @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        end
     end
 
     # LH-2.0
@@ -104,8 +106,9 @@ for (c,label) in enumerate(target_labels)
         @printf("Cluster %d, trial %d, method LH2.0, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
     open("amazon_c"*string(label)*"_multiseed_LH2.0.txt", "w") do f
-    for i in 1:num_trials
-        @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        for i in 1:num_trials
+            @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        end
     end
 
     # LH-1.4
@@ -122,8 +125,9 @@ for (c,label) in enumerate(target_labels)
         @printf("Cluster %d, trial %d, method LH1.4, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
     open("amazon_c"*string(label)*"_multiseed_LH1.4.txt", "w") do f
-    for i in 1:num_trials
-        @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        for i in 1:num_trials
+            @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        end
     end
 
     # ACL
