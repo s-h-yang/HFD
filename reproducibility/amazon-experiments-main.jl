@@ -60,8 +60,9 @@ for (c,label) in enumerate(target_labels)
         @printf("Cluster %d, trial %d, method HFD2.0, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
     open("amazon_c"*string(label)*"_singleseed_HFD2.0.txt", "w") do f
-    for i in 1:num_trials
-        @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        for i in 1:num_trials
+            @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        end
     end
 
     # LH-2.0
@@ -76,8 +77,9 @@ for (c,label) in enumerate(target_labels)
         @printf("Cluster %d, trial %d, method LH2.0, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
     open("amazon_c"*string(label)*"_singleseed_LH2.0.txt", "w") do f
-    for i in 1:num_trials
-        @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        for i in 1:num_trials
+            @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        end
     end
 
     # LH-1.4
@@ -92,8 +94,9 @@ for (c,label) in enumerate(target_labels)
         @printf("Cluster %d, trial %d, method LH1.4, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
     open("amazon_c"*string(label)*"_singleseed_LH1.4.txt", "w") do f
-    for i in 1:num_trials
-        @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        for i in 1:num_trials
+            @printf(f, "%.4f\t%.4f\t%.4f\t%.4f\n", PR[i], RE[i], F1[i], COND[i])
+        end
     end
 
     # ACL
@@ -105,7 +108,7 @@ for (c,label) in enumerate(target_labels)
         x = PageRank.acl_diffusion(Ga,deg,[seeds[i]],gamma,kappa)
         x ./= deg
         x = x[1:size(G.H,2)]
-        COND[i], cluster = hyper_sweepcut(G.H,x,G.deg,G.delta,0.0,G.order,nseeds=num_seeds)
+        COND[i], cluster = hyper_sweepcut(G.H,x,G.deg,G.delta,0.0,G.order,nseeds=1)
         PR[i], RE[i], F1[i] = PRF(target,cluster)
         @printf("Cluster %d, trial %d, method ACL, Pr %.4f, Re %.4f, F1 %.4f, Cond %.4f\n", label, i, PR[i], RE[i], F1[i], COND[i])
     end
