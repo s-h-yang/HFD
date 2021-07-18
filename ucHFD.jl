@@ -13,7 +13,6 @@ function ucHFD(H::HyperGraph, Delta::Vector{Float64}; max_iters::Int64=50,
     update_active_set!(H, A, ex)
     nznodes = zeros(Int64,max_iters+2)
     nznodes[1] = count(!iszero, ex)
-
     if r === nothing || s === nothing
         r = init_r(H)
         s = copy(r)
@@ -22,11 +21,13 @@ function ucHFD(H::HyperGraph, Delta::Vector{Float64}; max_iters::Int64=50,
         fill!(s.nzval, 0.0)
     end
 
-    netflow = zeros(Float64, H.nv) # placeholder for netflow
-    numverts = zeros(Int64, H.ne) # placeholder for sweepcut
+    netflow = zeros(Float64, H.nv) # pre-allocate vector to store net flows
+    numverts = zeros(Int64, H.ne) # pre-allocate vector for use in sweepcut
 
     best_cluster = Vector{Int}()
     best_cond = 1.0
+
+    t1 = time_ns()
 
     for k = 1:max_iters
         update_s!(H, r, s, A, ex)
@@ -35,16 +36,20 @@ function ucHFD(H::HyperGraph, Delta::Vector{Float64}; max_iters::Int64=50,
         update_active_set!(H, A, ex)
 
         cluster, cond = uc_sweepcut(H, ex./H.degree, numverts=numverts)
-        if cond < best_cond
+        if cond <= best_cond
             best_cluster = copy(cluster)
             best_cond = cond
         end
+        #@printf("Iteration %d, total excess %.2f, active edges %d, excess nodes %d, cond %.4f, objval %.5e\n",
+        #    k, sum(ex), length(A), count(!iszero, ex), cond, get_objval(phi, r, s, sigma, p, A))
         nznodes[k+1] = count(!iszero, ex)
     end
 
+    t2 = time_ns()
+
     nznodes[max_iters+2] = count(!iszero, ex)
 
-    return best_cluster, best_cond, ex, nznodes
+    return best_cluster, best_cond, ex, (t2-t1)/1e9, nznodes
 end
 
 
@@ -251,4 +256,14 @@ function update_active_set!(H::HyperGraph, A::Set{Int64}, x::Vector{Float64})
     for v in findall(!iszero, x)
         union!(A, H.incidence[v])
     end
+end
+
+function get_objval(phi, r, s, sigma, p, A)
+    objval = 0.0
+    for e in A
+        r_e = r.nzval[r.colptr[e]:(r.colptr[e+1]-1)]
+        s_e = s.nzval[s.colptr[e]:(s.colptr[e+1]-1)]
+        objval = objval + (sigma*phi[e])^(p-1)*phi[e] + norm(s_e-r_e,p)^p
+    end
+    return objval
 end
